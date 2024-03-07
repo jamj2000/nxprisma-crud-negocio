@@ -10,8 +10,6 @@ async function ListaProveedores({ articuloId, disabled }) {
         proveeArticulo = articulo.proveedores.map(p => p.id);
     }
 
-    // console.log(`PROVEEDORES de ARTICULO ${articuloId}: `, proveeArticulo);
-
     return (
         <fieldset disabled={disabled}>
             <legend>Proveedores</legend>
@@ -22,7 +20,7 @@ async function ListaProveedores({ articuloId, disabled }) {
                             ? <input type='checkbox' name={proveedor.id} value={proveedor.id} defaultChecked />
                             : <input type='checkbox' name={proveedor.id} value={proveedor.id} />
                         }
-                         {proveedor.nombre}
+                        {proveedor.nombre}
                     </p>
                 </div>
             ))}
