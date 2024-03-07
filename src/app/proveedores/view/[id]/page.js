@@ -1,4 +1,5 @@
 import Form from "@/components/FormProveedor"
+import Link from "next/link"
 import { getProveedor } from "@/lib/actions"
 import { Suspense } from "react"
 
@@ -12,6 +13,9 @@ function page({ params }) {
         <Form action={getProveedor} proveedorId={params.id} disabled={true} >
         </Form>
       </Suspense>
+      <Link className='enlace' href="/proveedores">
+        Volver atrás
+      </Link>
     </div>
   )
 }
