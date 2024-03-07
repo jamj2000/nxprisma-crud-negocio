@@ -42,9 +42,9 @@ a {
 
 a.enlace {
   text-decoration: none;
-  color: rgb(93, 90, 90);
+  color: black;
   border: solid 1px lightgray;
-  background-color: var(--bglight);
+  background-color: white;
   margin: 2px;
   padding: 8px 20px;
   border-radius: 5px;
@@ -127,8 +127,13 @@ input[type=checkbox] {
   margin-right: 8px;
 }
 
+button {
+  background-color: linen;
+}
+
+
 button:hover {
-  background-color: var(--bgdark);
+  background-color: darkred;
   color: var(--bglight);
 }
 
