@@ -1,4 +1,4 @@
-import ListaProveedores from './ListaProveedores'
+import ListaProveedores from '@/components/ListaProveedores'
 import { Suspense } from 'react'
 
 
@@ -22,7 +22,7 @@ function Form({ children, action, articulo, disabled = false }) {
                     placeholder='precio'
                     defaultValue={Number(articulo?.precio)} required />
             </fieldset>
-            <Suspense fallback={'Loading ...'}>
+            <Suspense fallback={'Proveedores...'}>
                 <ListaProveedores articuloId={articulo?.id} disabled={disabled} />
             </Suspense>
             {children}

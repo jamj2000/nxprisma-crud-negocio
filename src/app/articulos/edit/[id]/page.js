@@ -2,6 +2,7 @@ import Form from "@/components/FormArticulo"
 import Button from "@/components/Button"
 import prisma from '@/lib/prisma'
 import { editArticulo } from "@/lib/actions"
+import { Suspense } from "react"
 
 export const dynamic = 'force-dynamic'
 
@@ -15,9 +16,11 @@ async function page({ params }) {
   return (
     <div>
       <h3>Editar artículo</h3>
-      <Form action={editArticulo} articulo={articulo} >
-        <Button title='Editar artículo' />
-      </Form>
+      <Suspense fallback={'Cargando...'}>
+        <Form action={editArticulo} articulo={articulo} >
+          <Button title='Editar artículo' />
+        </Form>
+      </Suspense>
     </div>
   )
 }

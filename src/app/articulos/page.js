@@ -1,11 +1,11 @@
-import ListadoArticulos from '@/components/ListadoArticulos'
+import Articulos from '@/components/Articulos'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
 
 export const dynamic = 'force-dynamic'
 
-export default async function Home() {
+export default async function page() {
 
     return (
         <div>
@@ -13,8 +13,14 @@ export default async function Home() {
                 <Image src='/nuevo.svg' alt='nuevo' width="20" height="20" />
                 Nuevo artículo
             </Link>
-            <Suspense fallback={'Cargando...'}>
-                <ListadoArticulos />
+            <Suspense fallback={
+                <>
+                    <div className='esqueleto-articulo' />
+                    <div className='esqueleto-articulo' />
+                    <div className='esqueleto-articulo' />
+                </>
+            }>
+                <Articulos />
             </Suspense>
         </div>
     )

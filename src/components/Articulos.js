@@ -3,7 +3,7 @@ import Articulo from "@/components/Articulo"
 import Link from "next/link"
 import Image from "next/image"
 
-async function ListadoArticulos() {
+async function Articulos() {
     const articulos = await getArticulos()
 
     return (
@@ -26,4 +26,4 @@ async function ListadoArticulos() {
     )
 }
 
-export default ListadoArticulos
+export default Articulos
