@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Articulo from '@/components/Articulo'
 import { getArticulos } from '@/lib/actions'
+import { Suspense } from 'react'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,6 +16,7 @@ export default async function Home() {
                 <Image src='/nuevo.svg' alt='nuevo' width="20" height="20" />
                 Nuevo artículo
             </Link>
+            <Suspense fallback="Cargando...">
             {
                 articulos.map((articulo) => (
                     <Articulo key={articulo.id} articulo={articulo} >
@@ -33,6 +35,7 @@ export default async function Home() {
                     </Articulo>
                 ))
             }
+            </Suspense>
         </div>
     )
 }
