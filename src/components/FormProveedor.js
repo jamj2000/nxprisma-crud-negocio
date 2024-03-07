@@ -1,6 +1,16 @@
+import prisma from '@/lib/prisma'
 
+async function Form({ children, action, proveedorId, disabled = false }) {
 
-function Form({ children, action, proveedor, disabled = false }) {
+    let proveedor;
+
+    if (proveedorId) {
+        proveedor = await prisma.proveedor.findUnique({
+            where: {
+                id: Number(proveedorId),
+            },
+        })
+    }
 
     return (
         <form action={action} >

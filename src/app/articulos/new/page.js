@@ -9,7 +9,7 @@ function page() {
   return (
     <div>
       <h3>Nuevo artículo</h3>
-      <Suspense fallback={'Cargando...'}>
+      <Suspense fallback={'...'}>
         <Form action={newArticulo} articulo={null}>
           <Button title='Crear artículo' />
         </Form>

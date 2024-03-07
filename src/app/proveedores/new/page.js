@@ -1,16 +1,18 @@
 import Form from "@/components/FormProveedor"
 import Button from "@/components/Button"
 import { newProveedor } from "@/lib/actions"
-
-export const dynamic = 'force-dynamic'
+import { Suspense } from "react"
 
 function page() {
   return (
     <div>
       <h3>Nuevo proveedor</h3>
-      <Form action={newProveedor} proveedor={null}>
-        <Button title='Crear proveedor' />
-      </Form>
+
+      <Suspense fallback={'...'}>
+        <Form action={newProveedor} proveedorId={null}>
+          <Button title='Crear proveedor' />
+        </Form>
+      </Suspense>
     </div>
   )
 }

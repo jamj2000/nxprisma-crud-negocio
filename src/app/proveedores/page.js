@@ -1,9 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Suspense } from 'react'
 import Proveedores from '@/components/Proveedores'
-
-export const dynamic = 'force-dynamic'
+import { Suspense } from 'react'
 
 export default async function page() {
 

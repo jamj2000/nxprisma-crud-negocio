@@ -1,8 +1,19 @@
+import prisma from '@/lib/prisma'
 import ListaProveedores from '@/components/ListaProveedores'
 import { Suspense } from 'react'
 
 
-function Form({ children, action, articulo, disabled = false }) {
+async function Form({ children, action, articuloId, disabled = false }) {
+
+    let articulo;
+
+    if (articuloId) {
+        articulo = await prisma.articulo.findUnique({
+            where: {
+                id: Number(articuloId),
+            },
+        })
+    }
 
     return (
         <form action={action} >

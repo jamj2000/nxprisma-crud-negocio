@@ -1,21 +1,17 @@
 import Form from "@/components/FormProveedor"
-import prisma from '@/lib/prisma'
 import { getProveedor } from "@/lib/actions"
+import { Suspense } from "react"
 
-export const dynamic = 'force-dynamic'
-
-async function page({ params }) {
-  const proveedor = await prisma.proveedor.findUnique({
-    where: {
-      id: Number(params.id),
-    },
-  })
+function page({ params }) {
 
   return (
     <div>
       <h3>Ver proveedor</h3>
-      <Form action={getProveedor} proveedor={proveedor} disabled={true} >
-      </Form>
+
+      <Suspense fallback={'...'}>
+        <Form action={getProveedor} proveedorId={params.id} disabled={true} >
+        </Form>
+      </Suspense>
     </div>
   )
 }
