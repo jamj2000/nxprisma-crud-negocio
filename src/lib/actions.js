@@ -5,11 +5,11 @@ import { redirect } from 'next/navigation';
 
 
 // Obtener array con IDs de todos los proveedores
-async function getProveedoresIds () {
+async function getProveedoresID() {
   const proIds = await prisma.proveedor.findMany({
-      select: { id: true }
+    select: { id: true }
   })
-  return proIds.map( p => p.id )
+  return proIds.map(p => p.id)
 }
 
 
@@ -53,17 +53,15 @@ export async function newArticulo(formData) {
     const precio = Number(formData.get('precio'))
 
     // Array con IDs de todos los proveedores
-    const ids = await getProveedoresIds()
-    console.log('IDs ', ids);
+    const proveedoresID = await getProveedoresID()
 
     // Array con IDs de proveedores marcados por el usuario
-    const checks = ids.map(id => formData.get(id.toString()))
-      .filter(id => id !== null)
-      .map(id => Number(id))
-    console.log('CHECKS ', checks);
+    const connect = proveedoresID
+      .filter(id => formData.get(id.toString()) !== null)
+      .map(id => ({ id: Number(id) }));
 
-    // Array de objetos con IDs de proveedores a conectar al artículo
-    const connect = checks.map(id => { return { id: Number(id) } })
+    // Información para depuración  
+    console.log('IDs ', proveedoresID);
     console.log('CONNECT ', connect);
 
     const articulo = await prisma.articulo.create({
@@ -72,6 +70,54 @@ export async function newArticulo(formData) {
         descripcion,
         precio,
         proveedores: { connect },
+      },
+      include: {
+        proveedores: true,
+      },
+    })
+
+    console.log(articulo);
+    revalidatePath('/articulos')
+  } catch (error) {
+    console.log(error);
+  }
+  redirect('/articulos');
+}
+
+
+
+export async function editArticulo(formData) {
+  const id = Number(formData.get('id'))
+  const nombre = formData.get('nombre')
+  const descripcion = formData.get('descripcion')
+  const precio = Number(formData.get('precio'))
+
+  // Array con IDs de todos los proveedores
+  const proveedoresID = await getProveedoresID()
+
+  // Array con IDs de proveedores marcados por el usuario
+  const connect = proveedoresID
+    .filter(id => formData.get(id.toString()) !== null)
+    .map(id => ({ id: Number(id) }));
+
+  // Array con IDs de proveedores NO marcados por el usuario
+  const disconnect = proveedoresID
+    .filter(id => formData.get(id.toString()) === null)
+    .map(id => ({ id: Number(id) }));
+
+  // Información para depuración
+  console.log('IDs ', proveedoresID);
+  console.log('CONNECT ', connect);
+  console.log('DISCONNECT ', disconnect);
+
+  try {
+    const articulo = await prisma.articulo.update({
+      where: { id },
+      data: {
+        nombre,
+        descripcion,
+        precio,
+        proveedores: { connect, disconnect },
       },
       include: {
         proveedores: true,
@@ -106,54 +152,6 @@ const result = await prisma.articulo.update({
 })
 
 */
-
-export async function editArticulo(formData) {
-  const id = Number(formData.get('id'))
-  const nombre = formData.get('nombre')
-  const descripcion = formData.get('descripcion')
-  const precio = Number(formData.get('precio'))
-
-  // Array con IDs de todos los proveedores
-  const ids = await getProveedoresIds()
-  console.log('IDs ', ids);
-
-  // Array con IDs de proveedores marcados por el usuario
-  const checks = ids.map(id => formData.get(id.toString()))
-    .filter(id => id !== null)
-    .map(id => Number(id))
-  console.log('CHECKS ', checks);
-
-  // Array de objetos con IDs de proveedores a conectar al artículo
-  const connect = checks.map(id => { return { id: Number(id) } })
-  console.log('CONNECT ', connect);
-
-  // Array de objetos con IDs de proveedores a desconectar del artículo
-  // https://stackoverflow.com/questions/1187518/how-to-get-the-difference-between-two-arrays-in-javascript
-  const difference = ids.filter(id => !checks.includes(id));
-  const disconnect = difference.map(id => { return { id: Number(id) } })
-  console.log('DISCONNECT ', disconnect);
-
-  try {
-    const articulo = await prisma.articulo.update({
-      where: { id },
-      data: { 
-        nombre, 
-        descripcion, 
-        precio,
-        proveedores: { connect, disconnect },
-      },
-      include: {
-        proveedores: true,
-      },
-    })
-
-    console.log(articulo);
-    revalidatePath('/articulos')
-  } catch (error) {
-    console.log(error);
-  }
-  redirect('/articulos');
-}
 
 
 export async function deleteArticulo(formData) {

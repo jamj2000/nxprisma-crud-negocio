@@ -15,13 +15,11 @@ async function ListaProveedores({ articuloId, disabled }) {
             <legend>Proveedores</legend>
             {proveedores?.map((proveedor) => (
                 <div key={proveedor.id}>
-                    <p>
                         {proveeArticulo.includes(proveedor.id)
                             ? <input type='checkbox' name={proveedor.id} value={proveedor.id} defaultChecked />
                             : <input type='checkbox' name={proveedor.id} value={proveedor.id} />
                         }
                         {proveedor.nombre}
-                    </p>
                 </div>
             ))}
         </fieldset>
