@@ -4,14 +4,16 @@ import { deleteProveedor } from "@/lib/actions"
 import { Suspense } from "react"
 
 
-function page({ params }) {
+async function page({ params }) {
+
+  const { id } = await params
 
   return (
     <div>
       <h3>Eliminar proveedor</h3>
-      
+
       <Suspense fallback={'...'}>
-        <Form action={deleteProveedor} proveedorId={params.id} disabled={true} >
+        <Form action={deleteProveedor} proveedorId={id} disabled={true} >
           <Button title='Eliminar proveedor' />
         </Form>
       </Suspense>

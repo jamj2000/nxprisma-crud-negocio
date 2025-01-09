@@ -4,14 +4,16 @@ import { editProveedor } from "@/lib/actions"
 import { Suspense } from "react"
 
 
-function page({ params }) {
+async function page({ params }) {
+
+  const { id } = await params
 
   return (
     <div>
       <h3>Editar proveedor</h3>
-      
+
       <Suspense fallback={'...'}>
-        <Form action={editProveedor} proveedorId={params.id} >
+        <Form action={editProveedor} proveedorId={id} >
           <Button title='Editar proveedor' />
         </Form>
       </Suspense>

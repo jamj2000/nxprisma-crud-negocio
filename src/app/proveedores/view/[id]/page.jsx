@@ -3,14 +3,16 @@ import Link from "next/link"
 import { getProveedor } from "@/lib/actions"
 import { Suspense } from "react"
 
-function page({ params }) {
+async function page({ params }) {
+
+  const { id } = await params
 
   return (
     <div>
       <h3>Ver proveedor</h3>
 
       <Suspense fallback={'...'}>
-        <Form action={getProveedor} proveedorId={params.id} disabled={true} >
+        <Form action={getProveedor} proveedorId={id} disabled={true} >
         </Form>
       </Suspense>
       <Link className='enlace' href="/proveedores">
