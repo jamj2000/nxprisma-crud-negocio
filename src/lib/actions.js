@@ -19,7 +19,7 @@ async function getProveedoresID() {
 
 
 
-//// ARTÍCULOS
+// ------------------------- ARTÍCULOS -----------------------------------
 
 export async function getArticulos() {
   try {
@@ -41,7 +41,7 @@ export async function getArticulo(id) {  // obtener artículo con proveedores
       }
     })
 
-    console.log(articulo);
+    // console.log(articulo);
     return articulo;
   } catch (error) {
     // console.log(error);  
@@ -52,13 +52,7 @@ export async function getArticulo(id) {  // obtener artículo con proveedores
 
 /* 
 // EJEMPLO CREACIÓN
-const result = await prisma.articulo.update({
-  where: {
-    id: 16,
-  },
-  include: {
-    proveedores: true,
-  },
+const result = await prisma.articulo.create({
   data: {
     proveedores: {
       connect: [{id: 4}, {id: 5}]     
@@ -78,7 +72,11 @@ export async function newArticulo(formData) {
 
   // Array con IDs de proveedores marcados por el usuario
   const connect = proveedoresID.filter(({ id }) => formData.get(id.toString()) !== null)
-  console.log('PROVEEDORES ', { connect });
+
+  const proveedores = { connect }
+
+  // Información de depuración
+  // console.log('PROVEEDORES ', proveedores );
 
   try {
     const articulo = await prisma.articulo.create({
@@ -86,14 +84,11 @@ export async function newArticulo(formData) {
         nombre,
         descripcion,
         precio,
-        proveedores: { connect }
-      },
-      include: {
-        proveedores: true,
+        proveedores,
       },
     })
 
-    console.log(articulo);
+    // console.log(articulo);
     revalidatePath('/articulos')
   } catch (error) {
     console.log(error);
@@ -107,9 +102,6 @@ export async function newArticulo(formData) {
 const result = await prisma.articulo.update({
   where: {
     id: 16,
-  },
-  include: {
-    proveedores: true,
   },
   data: {
     proveedores: {
@@ -138,8 +130,10 @@ export async function editArticulo(formData) {
   // Array con IDs de proveedores NO marcados por el usuario
   const disconnect = proveedoresID.filter(({ id }) => formData.get(id.toString()) === null)
 
+  const proveedores = { connect, disconnect }
+
   // Información para depuración
-  console.log('PROVEEDORES ', { connect, disconnect });
+  // console.log('PROVEEDORES ', proveedores);
 
   // -> Si disponemos de NodeJS 21+
   // Objecto con 2 arrays: connect con IDs de proveedores marcados por el usuario y disconnect con IDs no marcados
@@ -153,15 +147,11 @@ export async function editArticulo(formData) {
         nombre,
         descripcion,
         precio,
-        proveedores: { connect, disconnect },
-        //proveedores  // -> Si hemos usado Object.groupBy disponible en NodeJS 21+
-      },
-      include: {
-        proveedores: true,
+        proveedores,
       },
     })
 
-    console.log(articulo);
+    // console.log(articulo);
     revalidatePath('/articulos')
   } catch (error) {
     console.log(error);
@@ -179,7 +169,7 @@ export async function deleteArticulo(formData) {
         id: id,
       },
     })
-    console.log(articulo);
+    // console.log(articulo);
     revalidatePath('/articulos')
   } catch (error) {
     console.log(error);
@@ -190,7 +180,8 @@ export async function deleteArticulo(formData) {
 
 
 
-//// PROVEEDORES
+
+// ------------------------- PROVEEDORES -----------------------------------
 
 export async function getProveedores() {
   try {
@@ -212,7 +203,7 @@ export async function getProveedor(id) {  // obtener proveedores con artículos
       }
     })
 
-    console.log(proveedor);
+    // console.log(proveedor);
     return proveedor;
   } catch (error) {
     // console.log(error);  
@@ -232,7 +223,7 @@ export async function newProveedor(formData) {
       data: { nombre, nacional },
     })
 
-    console.log(proveedor);
+    // console.log(proveedor);
     revalidatePath('/proveedores')
   } catch (error) {
     console.log(error);
@@ -253,7 +244,7 @@ export async function editProveedor(formData) {
       where: { id },
       data: { nombre, nacional },
     })
-    console.log(proveedor);
+    // console.log(proveedor);
     revalidatePath('/proveedores')
   } catch (error) {
     console.log(error);
@@ -271,7 +262,7 @@ export async function deleteProveedor(formData) {
         id: id,
       },
     })
-    console.log(proveedor);
+    // console.log(proveedor);
     revalidatePath('/proveedores')
   } catch (error) {
     console.log(error);

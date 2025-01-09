@@ -10,7 +10,7 @@ export default async function page() {
     return (
         <div>
             <Link className='enlace' href="/articulos/new">
-                <Image src='/nuevo.svg' alt='nuevo' width="20" height="20" />
+                <Image src='/nuevo.svg' alt='nuevo' width={20} height={20} />
                 Nuevo artículo
             </Link>
             <Suspense fallback={

@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 ///// Lectura
 
 // 1. Mostrar todos los artículos. (findMany)
-// const articulos = await prisma.articulo.findMany();
-// console.log(articulos);
+const articulos = await prisma.articulo.findMany();
+console.log(articulos);
 
 
 // 2. Mostrar el primer artículo. (findFirst)
@@ -202,12 +202,12 @@ const prisma = new PrismaClient();
 
 
 // 2. Elimina los artículos con precio > 20
-const articulo = await prisma.articulo.deleteMany({
-    where: {
-      precio: {
-        gt: 20
-      },
-    },
-})
-console.log(articulo);
+// const articulo = await prisma.articulo.deleteMany({
+//     where: {
+//       precio: {
+//         gt: 20
+//       },
+//     },
+// })
+// console.log(articulo);
 
