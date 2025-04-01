@@ -1,11 +1,12 @@
 {
+    "name": "Negocio CRUD",
+    "short_name": "negocio",
     "theme_color": "#2e30a1",
     "background_color": "#3e586f",
     "display": "standalone",
+    "orientation": "",
     "scope": "/",
     "start_url": "/",
-    "name": "Negocio CRUD",
-    "short_name": "negocio",
     "description": "NextJS app with ORM Prisma",
     "icons": [
         {
