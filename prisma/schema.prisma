@@ -1,38 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")  
+  provider = "postgresql"
 }
 
-// datasource db {
-//   provider = "mysql"
-//   url      = env("DATABASE_URL") 
-// }
-
-
 model Articulo {
-  id          Int       @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   nombre      String
   descripcion String?
-  precio      Decimal? 
-  createdAt   DateTime  @default(now()) 
-  updatedAt   DateTime  @updatedAt
+  precio      Decimal?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
   proveedores Proveedor[]
 
   @@map("articulos")
 }
 
 model Proveedor {
-  id          Int       @id @default(autoincrement())
-  nombre      String
-  nacional    Boolean?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  articulos   Articulo[]
+  id        Int        @id @default(autoincrement())
+  nombre    String
+  nacional  Boolean?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  articulos Articulo[]
 
   @@map("proveedores")
 }
-

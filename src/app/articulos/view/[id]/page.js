@@ -4,7 +4,8 @@ import { getArticulo } from "@/lib/actions"
 import { Suspense } from "react"
 
 
-async function page({ params }) {
+async function page(props) {
+  const params = await props.params;
 
   return (
     <div>

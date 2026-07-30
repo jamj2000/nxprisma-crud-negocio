@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma'
+import prisma from '@/lib/prisma.old'
 
 async function Form({ children, action, proveedorId, disabled = false }) {
 

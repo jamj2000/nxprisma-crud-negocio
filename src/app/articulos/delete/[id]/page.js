@@ -3,7 +3,8 @@ import Button from "@/components/Button"
 import { deleteArticulo } from "@/lib/actions"
 import { Suspense } from "react"
 
-function page({ params }) {
+async function page(props) {
+  const params = await props.params;
 
   return (
     <div>

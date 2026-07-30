@@ -1,4 +1,4 @@
-import Articulos from '@/components/Articulos'
+import Articulos from '@/components/Articulos/Lista'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
