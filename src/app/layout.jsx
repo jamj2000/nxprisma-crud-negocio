@@ -1,7 +1,7 @@
 import '@/app/globals.css'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import { MenuLink } from '@/components/simpleui';
 import { Inter } from "next/font/google";
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,14 +11,51 @@ export const metadata = {
   manifest: '/manifest.json'
 }
 
-export default function RootLayout({children}) {
+export default function RootLayout({ children }) {
   return (
-    <html lang="es">
-      <body className={inter.className}>
+    <html lang="es" className='scrollbar-gutter-stable'>
+      <body className={`${inter.className} grid grid-rows-[auto_1fr_auto] min-h-screen`}>
         <Navbar />
-        <main> {children} </main> 
-        <Footer />      
+        <main className='w-full max-w-6xl mx-auto py-8'> {children} </main>
+        <Footer />
+        <Toaster position='top-center' richColors />
       </body>
     </html>
   )
 }
+
+
+const Navbar = () => (
+  <nav className='px-4 py-2 flex justify-start border-b border-slate-400'>
+    <div className='flex gap-2'>
+      <MenuLink href="/">
+        Inicio
+      </MenuLink>
+      <MenuLink href="/articulos">
+        Artículos
+      </MenuLink>
+      <MenuLink href="/proveedores">
+        Proveedores
+      </MenuLink>
+    </div>
+    <div className='ml-auto'>
+      <MenuLink href="/acerca">
+        Acerca de ...
+      </MenuLink>
+    </div>
+  </nav>
+)
+
+
+
+
+const Footer = async () => {
+  'use cache'
+  return (
+    <footer className='flex justify-between px-4 py-2 border-t border-slate-400'>
+      <div>  <a href="https://github.com/jamj2000"> &copy; jamj2000 </a> </div>
+      <div>  {new Date().getFullYear()} </div>
+    </footer>
+  )
+}
+

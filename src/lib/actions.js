@@ -1,84 +1,16 @@
 'use server'
 import prisma from '@/lib/prisma'
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-
-
-// Obtener array con IDs de todos los proveedores
-async function getProveedoresID() {
-  try {
-    const IDs = await prisma.proveedor.findMany({
-      select: { id: true }
-    })
-    return IDs  // Formato: [ {id: 1}, {id: 2}, ...]
-  } catch (error) {
-    // console.log(error); 
-    return null;
-  }
-}
+import { revalidatePath, updateTag } from 'next/cache';
 
 
 
-//// ARTÍCULOS
-
-export async function getArticulos() {
-  try {
-    const articulos = await prisma.articulo.findMany()
-    return articulos;
-  } catch (error) {
-    // console.log(error);  
-    return null;
-  }
-}
-
-
-export async function getArticulo(id) {  // obtener artículo con proveedores
-  try {
-    const articulo = await prisma.articulo.findUnique({
-      where: { id },
-      include: {
-        proveedores: true
-      }
-    })
-
-    console.log(articulo);
-    return articulo;
-  } catch (error) {
-    // console.log(error);  
-    return null;
-  }
-}
-
-
-/* 
-// EJEMPLO CREACIÓN
-const result = await prisma.articulo.update({
-  where: {
-    id: 16,
-  },
-  include: {
-    proveedores: true,
-  },
-  data: {
-    proveedores: {
-      connect: [{id: 4}, {id: 5}]     
-    },
-  },
-})
-
-*/
-
-export async function newArticulo(formData) {
+export async function createArticulo(prevState, formData) {
   const nombre = formData.get('nombre')
   const descripcion = formData.get('descripcion')
   const precio = Number(formData.get('precio'))
 
-  // Array con IDs de todos los proveedores
-  const proveedoresID = await getProveedoresID()  // Formato: [ {id: 1}, {id: 2}, ...]
+  const proveedores = formData.getAll('proveedores').map(id => ({ id: +id }))
 
-  // Array con IDs de proveedores marcados por el usuario
-  const connect = proveedoresID.filter(({ id }) => formData.get(id.toString()) !== null)
-  console.log('PROVEEDORES ', { connect });
 
   try {
     const articulo = await prisma.articulo.create({
@@ -86,65 +18,35 @@ export async function newArticulo(formData) {
         nombre,
         descripcion,
         precio,
-        proveedores: { connect }
-      },
-      include: {
-        proveedores: true,
-      },
+        proveedores: { connect: proveedores },
+      }
     })
 
-    console.log(articulo);
-    revalidatePath('/articulos')
   } catch (error) {
-    console.log(error);
+    return {
+      type: "error",
+      message: "Error al crear el articulo"
+    }
   }
-  redirect('/articulos');
+
+  revalidatePath('/articulos');
+  updateTag('articulos')
+  return {
+    type: "success",
+    message: "Articulo creado correctamente"
+  }
 }
 
 
-/* 
-// EJEMPLO ACTUALIZACIÓN
-const result = await prisma.articulo.update({
-  where: {
-    id: 16,
-  },
-  include: {
-    proveedores: true,
-  },
-  data: {
-    proveedores: {
-      connect: [{id: 4}, {id: 5}],
-      disconnect: [{ id: 12 }, { id: 19 }],
-    },
-  },
 
-})
-
-*/
-
-export async function editArticulo(formData) {
+export async function updateArticulo(prevState, formData) {
   const id = Number(formData.get('id'))
   const nombre = formData.get('nombre')
   const descripcion = formData.get('descripcion')
   const precio = Number(formData.get('precio'))
 
-  // Array con IDs de todos los proveedores
-  const proveedoresID = await getProveedoresID()  // Formato: [ {id: 1}, {id: 2}, ...]
+  const proveedores = formData.getAll('proveedores').map(id => ({ id: +id }))
 
-  // -> Si no disponemos de NodeJS 21+ 
-  // Array con IDs de proveedores marcados por el usuario
-  const connect = proveedoresID.filter(({ id }) => formData.get(id.toString()) !== null)
-
-  // Array con IDs de proveedores NO marcados por el usuario
-  const disconnect = proveedoresID.filter(({ id }) => formData.get(id.toString()) === null)
-
-  // Información para depuración
-  console.log('PROVEEDORES ', { connect, disconnect });
-
-  // -> Si disponemos de NodeJS 21+
-  // Objecto con 2 arrays: connect con IDs de proveedores marcados por el usuario y disconnect con IDs no marcados
-  // const proveedores = Object.groupBy(proveedoresID, ({ id }) => formData.get(id.toString()) !== null ? 'connect' : 'disconnect')
-  // console.log('PROVEEDORES ', proveedores);
 
   try {
     const articulo = await prisma.articulo.update({
@@ -153,130 +55,138 @@ export async function editArticulo(formData) {
         nombre,
         descripcion,
         precio,
-        proveedores: { connect, disconnect },
-        //proveedores  // -> Si hemos usado Object.groupBy disponible en NodeJS 21+
-      },
-      include: {
-        proveedores: true,
-      },
+        proveedores: { set: proveedores },
+      }
     })
 
-    console.log(articulo);
-    revalidatePath('/articulos')
   } catch (error) {
     console.log(error);
+    return {
+      type: "error",
+      message: "Error al actualizar el articulo"
+    }
   }
-  redirect('/articulos');
+
+
+  revalidatePath('/articulos');
+  updateTag('articulos')
+  return {
+    type: "success",
+    message: "Articulo actualizado correctamente"
+  }
 }
 
 
-export async function deleteArticulo(formData) {
-  const id = Number(formData.get('id'))
+export async function deleteArticulo(prevState, formData) {
+  const id = +formData.get('id')
+
 
   try {
     const articulo = await prisma.articulo.delete({
-      where: {
-        id: id,
-      },
+      where: { id }
     })
-    console.log(articulo);
-    revalidatePath('/articulos')
+
   } catch (error) {
     console.log(error);
+    return {
+      type: "error",
+      message: "Error al eliminar el articulo"
+    }
   }
 
-  redirect('/articulos');
+  revalidatePath('/articulos');
+  updateTag('articulos')
+  return {
+    type: "success",
+    message: "Articulo eliminado correctamente"
+  }
 }
 
 
 
 //// PROVEEDORES
 
-export async function getProveedores() {
-  try {
-    const proveedores = await prisma.proveedor.findMany()
-    return proveedores;
-  } catch (error) {
-    // console.log(error);  
-    return null;
-  }
-}
-
-
-export async function getProveedor(id) {  // obtener proveedores con artículos
-  try {
-    const proveedor = await prisma.proveedor.findUnique({
-      where: { id },
-      include: {
-        articulos: true
-      }
-    })
-
-    console.log(proveedor);
-    return proveedor;
-  } catch (error) {
-    // console.log(error);  
-    return null;
-  }
-}
-
-
-export async function newProveedor(formData) {
+export async function createProveedor(prevState, formData) {
   const nombre = formData.get('nombre')
-  let nacional = formData.get('nacional')
+  const nacional = formData.get('nacional') === 'true'
 
-  nacional = Boolean(nacional)
+  const articulos = formData.getAll('articulos').map(id => ({ id: +id }))
+
 
   try {
     const proveedor = await prisma.proveedor.create({
-      data: { nombre, nacional },
+      data: { nombre, nacional, articulos: { connect: articulos } }
     })
 
-    console.log(proveedor);
-    revalidatePath('/proveedores')
   } catch (error) {
     console.log(error);
+    return {
+      type: "error",
+      message: "Error al crear el proveedor"
+    }
   }
-  redirect('/proveedores');
+
+  revalidatePath('/proveedores');
+  updateTag('proveedores')
+  return {
+    type: "success",
+    message: "Proveedor creado correctamente"
+  }
 }
 
 
-export async function editProveedor(formData) {
+export async function updateProveedor(prevState, formData) {
   const id = Number(formData.get('id'))
   const nombre = formData.get('nombre')
-  let nacional = formData.get('nacional')
+  const nacional = formData.get('nacional') === 'true'
 
-  nacional = Boolean(nacional)
+  const articulos = formData.getAll('articulos').map(id => ({ id: +id }))
+
 
   try {
     const proveedor = await prisma.proveedor.update({
       where: { id },
-      data: { nombre, nacional },
+      data: { nombre, nacional, articulos: { set: articulos } },
     })
-    console.log(proveedor);
-    revalidatePath('/proveedores')
+
   } catch (error) {
     console.log(error);
+    return {
+      type: "error",
+      message: "Error al actualizar el proveedor"
+    }
   }
-  redirect('/proveedores');
+
+  revalidatePath('/proveedores');
+  updateTag('proveedores')
+  return {
+    type: "success",
+    message: "Proveedor actualizado correctamente"
+  }
 }
 
 
-export async function deleteProveedor(formData) {
+export async function deleteProveedor(prevState, formData) {
   const id = Number(formData.get('id'))
 
   try {
     const proveedor = await prisma.proveedor.delete({
-      where: {
-        id: id,
-      },
+      where: { id },
     })
-    console.log(proveedor);
-    revalidatePath('/proveedores')
+
   } catch (error) {
     console.log(error);
+    return {
+      type: "error",
+      message: "Error al eliminar el proveedor"
+    }
   }
 
-  redirect('/proveedores');
+  revalidatePath('/proveedores');
+  updateTag('proveedores')
+  return {
+    type: "success",
+    message: "Proveedor eliminado correctamente"
+  }
 }
 

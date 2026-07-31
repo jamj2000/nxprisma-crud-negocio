@@ -1,3 +1,8 @@
+@import "tailwindcss";
+
+
+
+/* 
 :root {
   --border: 1px solid lightgrey;
   --bglight: rgb(248, 248, 248);
@@ -71,7 +76,7 @@ nav a {
 }
 
 nav a:hover {
-  background-color: darkblue ;
+  background-color: darkblue;
   color: white;
 }
 
@@ -146,7 +151,7 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-}
+} */
 
 /* .esqueleto-articulo, .esqueleto-proveedor {
   margin: 12px 0;
@@ -154,7 +159,7 @@ footer {
   border-radius: var(--radius);
 } */
 
-.esqueleto-articulo {
+/* .esqueleto-articulo {
   --alto: 170px;
 }
 
@@ -162,7 +167,8 @@ footer {
   --alto: 140px;
 }
 
-.esqueleto-articulo:empty, .esqueleto-proveedor:empty {
+.esqueleto-articulo:empty,
+.esqueleto-proveedor:empty {
   margin: 12px 0;
   border: var(--border);
   border-radius: var(--radius);
@@ -174,7 +180,8 @@ footer {
   background-size: 100% var(--alto);
 }
 
-.esqueleto-articulo:empty:before, .esqueleto-proveedor:empty:before {
+.esqueleto-articulo:empty:before,
+.esqueleto-proveedor:empty:before {
   content: ' ';
   position: absolute;
   z-index: 1000;
@@ -203,4 +210,4 @@ footer {
     width: 100%;
     margin: 20px 0;
   }
-}
+} */

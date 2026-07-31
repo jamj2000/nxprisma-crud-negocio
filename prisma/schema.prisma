@@ -16,7 +16,7 @@ model Articulo {
   id          Int         @id @default(autoincrement())
   nombre      String
   descripcion String?
-  precio      Decimal?
+  precio      Float?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   proveedores Proveedor[]
