@@ -6,20 +6,26 @@ import { toast } from "sonner";
 // Importamos todos los componentes de UI disponibles
 import { InputText } from "../server/InputText";
 import { InputNumber } from "../server/InputNumber";
+import { InputRange } from "./InputRange";
+import { InputDate } from "../server/InputDate";
 import { InputGroup } from "../server/InputGroup";
 import { Submit } from "../server/Submit";
 import { Badge } from "../server/Badge";
 import { Alert } from "../server/Alert";
 import { InputHidden } from "../server/InputHidden";
-import { InputSelect } from ".";
+import { InputSelect } from "./InputSelect";
+import { InputImage } from "./InputImage";
 
 
 
 // Creamos el mapa que relaciona el nombre (String) con el componente (React)
 const COMPONENT_MAP = {
     InputHidden,
+    InputImage,
     InputText,
     InputNumber,
+    InputRange,
+    InputDate,
     InputGroup,
     InputSelect,
     Submit
@@ -58,14 +64,9 @@ const fields = [
         ]
     },
     {
-        name: "tipo",
-        label: "Tipo",
-        component: "InputSelect",
-        options: [
-            ["Natural", "natural"],
-            ["Jurídico", "juridico"],
-        ]
-    },
+        labels: ["Guardar", "Guardando ..."],
+        component: "Submit"
+    }
 ];
 
 
@@ -84,7 +85,8 @@ export const Form = ({
     const formRef = useRef(null);
     const handledStateRef = useRef(state);
 
-    // console.log("data form", data)
+    const inputs = fields.filter(field => field.component != 'Submit')
+    const submits = fields.filter(field => field.component == 'Submit')
 
     useEffect(() => {
         if (!state) return;
@@ -94,45 +96,51 @@ export const Form = ({
 
         if (state.message && state.type) {
             toast[state.type](state.message);
-            formRef.current?.closest("dialog")?.close();
+            if (state.type == "success" || state.type == "info")
+                formRef.current?.closest("dialog")?.close();
         }
 
     }, [state]);
 
     return (
-        <form ref={formRef} action={formAction} className={className}>
-
+        <form ref={formRef} action={formAction} className={`@container flex flex-col ${className}`}>
             {showMessage && <Alert type={state?.type}> {state?.message} </Alert>}
 
-            {
-                fields.map((field) => {
-                    // Resolvemos el componente según el string pasado en 'field.component'
-                    // Si no se indica ninguno o no existe en el mapa, usa InputText por defecto
-                    const ComponenteUI = COMPONENT_MAP[field.component] || InputText;
+            <input type="hidden" name="id" defaultValue={data?.id} />
 
-                    const valorDefault = state?.values?.[field.name] ?? data[field.name];
-                    const errorCampo = state?.errors?.[field.name];
+            {inputs.map((input) => {
+                // Resolvemos el componente según el string pasado en 'input.component'
+                const ComponenteUI = COMPONENT_MAP[input.component] || InputText;
 
-                    return (
-                        <div key={field.name} className="flex flex-col gap-1 my-6">
-                            <ComponenteUI
-                                label={field.label}
-                                name={field.name}
-                                defaultValue={valorDefault}
-                                disabled={disabled || field.disabled}
-                                {...field} // Pasa cualquier otro campo
-                            />
+                const valorDefault = state?.values?.[input.name] ?? data[input.name];
+                const errorCampo = state?.errors?.[input.name];
 
-                            {errorCampo && <Badge type="error">{errorCampo}</Badge>}
-                        </div>
-                    );
-                })
+                return (
+                    <div key={input.name} className="flex flex-col gap-1 my-6">
+                        <ComponenteUI
+                            label={input.label}
+                            name={input.name}
+                            value={valorDefault}
+                            disabled={disabled || input.disabled}
+                            {...input} // Pasa cualquier otro campo
+                        />
+
+                        {errorCampo && <Badge type="error">{errorCampo}</Badge>}
+                    </div>
+                );
+            })}
+
+            {submits.length > 0 ?
+                submits.map((submit, i) => (
+                    <Submit key={i} labels={submit.labels} disabled={isPending} className="w-full" {...submit}>
+                        {isPending ? <span className="animate-pulse">{submit.labels[1]}</span> : submit.labels[0]}
+                    </Submit>
+
+                ))
+                : <Submit disabled={isPending} className="w-full">
+                    {isPending ? <span className="animate-pulse">Espere por favor...</span> : "Aceptar"}
+                </Submit>
             }
-
-            <Submit disabled={isPending} className="w-full">
-                {isPending ? <span className="animate-pulse">Espere por favor...</span> : "Aceptar"}
-            </Submit>
-
         </form >
     );
 };

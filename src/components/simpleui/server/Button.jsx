@@ -1,47 +1,20 @@
-// Usar dentro de componentes tipo 'use client'
-
-
-// const addedStyle = "p-2 rounded-full border border-slate-400 bg-linear-to-b from-slate-50 to-slate-300 dark:from-slate-500 dark:to-slate-800 "
-
-// export const Button = ({ onClick, disabled = false, children }) => (
-//     <button
-//         type="button"
-//         onClick={onClick}
-//         disabled={disabled}
-//         className={`${baseStyle} ${addedStyle}}`}
-//     >
-//         {children}
-//     </button>
-// )
-
-// const colors = {
-//     slate: "from-slate-100 to-slate-300 dark:from-slate-500 dark:to-slate-800",
-//     blue: "from-blue-100 to-blue-300 dark:from-blue-500 dark:to-blue-800",
-//     green: "from-green-100 to-green-300 dark:from-green-500 dark:to-green-800",
-//     red: "from-red-100 to-red-300 dark:from-red-500 dark:to-red-800",
-//     amber: "from-amber-100 to-amber-300 dark:from-amber-500 dark:to-amber-800",
-//     purple: "from-purple-100 to-purple-300 dark:from-purple-500 dark:to-purple-800",
-// };
-
 const baseStyle = "shadow-md cursor-pointer active:translate-y-0.5 hover:opacity-90 transition-all"
-const extraStyle = "rounded-full border border-slate-400 bg-radial-[at_25%_25%] to-75%"
+const extraStyle = "rounded-full border bg-radial-[at_25%_25%] to-75%"
 
 const colors = {
-    current: "from-gray-50 to-gray-200 text-gray-700 dark:from-gray-500 dark:to-gray-800 dark:text-gray-100",
+    current: "from-gray-50 to-gray-200 text-gray-800 dark:from-gray-500 dark:to-gray-800 dark:text-gray-200 border-gray-300/70",
     white: "from-gray-50 to-gray-200 dark:text-gray-700",
-    black: "from-gray-500 to-gray-800 text-gray-100",
-    slate: "from-slate-500 to-slate-800",
-    blue: " from-blue-500 to-blue-800",
-    green: "from-green-500 to-green-800",
-    red: "from-red-500 to-red-800",
-    yellow: "from-yellow-500 to-yellow-800",
-    orange: "from-orange-500 to-orange-800",
-    amber: "from-amber-500 to-amber-800",
-    purple: "from-purple-500 to-purple-800",
-    indigo: "from-indigo-500 to-indigo-800",
-    pink: "from-pink-500 to-pink-800",
+    black: "from-gray-400 to-gray-700 text-gray-200",
+    red: "from-red-50 to-red-200 text-red-800 dark:from-red-500 dark:to-red-800 dark:text-red-200 border-red-300/70",
+    green: "from-green-50 to-green-200 text-green-800 dark:from-green-500 dark:to-green-800 dark:text-green-200 border-green-300/70",
+    blue: "from-blue-50 to-blue-200 text-blue-800 dark:from-blue-500 dark:to-blue-800 dark:text-blue-200 border-blue-300/70",
+    yellow: "from-yellow-50 to-yellow-200 text-yellow-800 dark:from-yellow-500 dark:to-yellow-800 dark:text-yellow-200 border-yellow-300/70",
+    amber: "from-amber-50 to-amber-200 text-amber-800 dark:from-amber-500 dark:to-amber-800 dark:text-amber-200 border-amber-300/70",
+    orange: "from-orange-50 to-orange-200 text-orange-800 dark:from-orange-500 dark:to-orange-800 dark:text-orange-200 border-orange-300/70",
+    pink: "from-pink-50 to-pink-200 text-pink-800 dark:from-pink-500 dark:to-pink-800 dark:text-pink-200 border-pink-300/70",
+    purple: "from-purple-50 to-purple-200 text-purple-800 dark:from-purple-500 dark:to-purple-800 dark:text-purple-200 border-purple-300/70",
+    indigo: "from-indigo-50 to-indigo-200 text-indigo-800 dark:from-indigo-500 dark:to-indigo-800 dark:text-indigo-200 border-indigo-300/70",
 };
-
 
 
 const sizes = {
@@ -55,9 +28,24 @@ const sizes = {
 };
 
 
+const rounds = {
+    none: "rounded-none",
+    xs: "rounded-xs",
+    sm: "rounded-xs",
+    md: "rounded-xs",
+    lg: "rounded-xs",
+    xl: "rounded-xs",
+    "2xl": "rounded-xs",
+    "3xl": "rounded-xs",
+    "full": "rounded-full"
+};
+
+
+
 export function Button({
     color = "current",
     size = "lg",
+    round = "full",
     onClick,
     disabled = false,
     children,
@@ -68,7 +56,7 @@ export function Button({
             type="button"
             onClick={onClick}
             disabled={disabled}
-            className={`${baseStyle} ${extraStyle} ${sizes[size]} ${colors[color]} ${className}`}
+            className={`${baseStyle} ${extraStyle} ${sizes[size]} ${colors[color]} ${rounds[round]} ${className}`}
         >
             {children}
         </button>

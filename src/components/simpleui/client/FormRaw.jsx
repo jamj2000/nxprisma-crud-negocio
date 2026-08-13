@@ -1,7 +1,7 @@
 "use client"
 
 import { useActionState, useEffect, useRef } from "react";
-// import { toast } from "sonner";
+import { toast } from "sonner";
 import { InputText } from "../server/InputText";
 import { InputNumber } from "../server/InputNumber";
 import { Submit } from "../server/Submit";
@@ -22,7 +22,7 @@ export const FormRaw = ({
         if (!state) return;
 
         if (state.message && state.type && toast[state.type]) {
-            // toast[state.type](state.message);
+            toast[state.type](state.message);
         }
 
         if (state.type === "success" || state.success) {

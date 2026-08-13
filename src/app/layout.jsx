@@ -1,5 +1,5 @@
 import '@/app/globals.css'
-import { MenuLink } from '@/components/simpleui';
+import Header from '@/components/header';
 import { Inter } from "next/font/google";
 import { Toaster } from 'sonner';
 
@@ -11,12 +11,18 @@ export const metadata = {
   manifest: '/manifest.json'
 }
 
+
+
 export default function RootLayout({ children }) {
   return (
     <html lang="es" className='scrollbar-gutter-stable'>
-      <body className={`${inter.className} grid grid-rows-[auto_1fr_auto] min-h-screen`}>
-        <Navbar />
-        <main className='w-full max-w-6xl mx-auto py-8'> {children} </main>
+      <body className={`${inter.className} grid min-h-screen grid-rows-[1fr_auto]`}>
+        <Header />
+
+        <main className='w-full min-h-0 max-w-6xl mx-auto py-8 px-4 mt-20'>
+          {children}
+        </main>
+
         <Footer />
         <Toaster position='top-center' richColors />
       </body>
@@ -25,26 +31,6 @@ export default function RootLayout({ children }) {
 }
 
 
-const Navbar = () => (
-  <nav className='px-4 py-2 flex justify-start border-b border-slate-400'>
-    <div className='flex gap-2'>
-      <MenuLink href="/">
-        Inicio
-      </MenuLink>
-      <MenuLink href="/articulos">
-        Artículos
-      </MenuLink>
-      <MenuLink href="/proveedores">
-        Proveedores
-      </MenuLink>
-    </div>
-    <div className='ml-auto'>
-      <MenuLink href="/acerca">
-        Acerca de ...
-      </MenuLink>
-    </div>
-  </nav>
-)
 
 
 

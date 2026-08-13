@@ -7,8 +7,6 @@ const styles = {
 }
 
 
-
-
 const InfoIcon = () => (
     <svg
         height={24}
@@ -70,10 +68,18 @@ const ErrorIcon = () => (
 
 
 
+const icons = {
+    info: <InfoIcon />,
+    success: <SuccessIcon />,
+    warning: <WarningIcon />,
+    error: <ErrorIcon />,
+}
+
+
 
 export const Badge = ({ type = "info", children }) => (
     <div className={`${styles[type]} inline-flex items-center gap-1 px-2 py-1 rounded-full border`}>
-        <InfoIcon /> {children}
+        {icons[type]} {children}
     </div>
 )
 

@@ -6,6 +6,7 @@ const colorsChecked = {
     green: "peer-checked:fill-green-500",
     blue: "peer-checked:fill-blue-500",
     yellow: "peer-checked:fill-yellow-500",
+    amber: "peer-checked:fill-amber-500",
     orange: "peer-checked:fill-orange-500",
     lime: "peer-checked:fill-lime-500",
     indigo: "peer-checked:fill-indigo-500",
@@ -17,7 +18,7 @@ const colorsChecked = {
 
 // ICONOS PARA INPUTS RADIO Y CHECKBOX
 
-export const CircleIcon = ({ color = "text-white", colorChecked = "indigo" }) => (
+export const CircleIcon = ({ color = "text-white", colorChecked = "blue" }) => (
     <svg
         height={24}
         width={24}
@@ -139,6 +140,25 @@ export const CrossIcon = ({ color = "text-white", colorChecked = "green" }) => (
 
 )
 
+// ICONO HOME
+
+export const HomeIcon = ({ className }) => (
+    <svg
+        width={24}
+        height={24}
+        viewBox="0 0 24 24"
+        className={className}
+        fill="none"
+    >
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M12.614 1.21a1 1 0 00-1.228 0l-9 7A1 1 0 002 9v11a2 2 0 002 2h16a2 2 0 002-2V9a1 1 0 00-.386-.79l-9-7zM16 20h4V9.49l-8-6.223-8 6.222V20h4v-8a1 1 0 011-1h6a1 1 0 011 1v8zm-6 0v-7h4v7h-4z"
+            fill="currentColor"
+        />
+    </svg>
+)
+
 
 // ICONOS PARA ACCIONES
 
@@ -191,6 +211,26 @@ export const DeleteIcon = ({ className }) => (
     >
         <path
             d="M13 3H8.2c-1.12 0-1.68 0-2.108.218a2 2 0 00-.874.874C5 4.52 5 5.08 5 6.2v11.6c0 1.12 0 1.68.218 2.108a2 2 0 00.874.874C6.52 21 7.08 21 8.2 21H12m1-18l6 6m-6-6v4.4c0 .56 0 .84.109 1.054a1 1 0 00.437.437C13.76 9 14.04 9 14.6 9H19m0 0v5.5M9 17h2.5M9 13h6M9 9h1m5.5 9.5h5"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+    </svg>
+)
+
+
+
+export const ViewIcon = ({ className }) => (
+    <svg
+        width={24}
+        height={24}
+        viewBox="0 0 24 24"
+        className={className}
+        fill="none"
+    >
+        <path
+            d="M9 17h6m-6-4h6M9 9h1m3-6H8.2c-1.12 0-1.68 0-2.108.218a2 2 0 00-.874.874C5 4.52 5 5.08 5 6.2v11.6c0 1.12 0 1.68.218 2.108a2 2 0 00.874.874C6.52 21 7.08 21 8.2 21h7.6c1.12 0 1.68 0 2.108-.218a2 2 0 00.874-.874C19 19.48 19 18.92 19 17.8V9m-6-6l6 6m-6-6v4.4c0 .56 0 .84.109 1.054a1 1 0 00.437.437C13.76 9 14.04 9 14.6 9H19"
             stroke="currentColor"
             strokeWidth={2}
             strokeLinecap="round"
