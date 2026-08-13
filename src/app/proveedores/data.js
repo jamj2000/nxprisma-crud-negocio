@@ -17,7 +17,7 @@ export async function getProveedores() {
                 createdAt: 'desc'
             }
         })
-        // return proveedores;
+        return proveedores;
     } catch (error) {
         // console.log(error);  
         return null;
