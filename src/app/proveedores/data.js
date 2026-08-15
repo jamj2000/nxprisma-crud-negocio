@@ -27,7 +27,7 @@ export async function getProveedores() {
 
 export async function getProveedor(id) {  // obtener proveedores con artículos
     'use cache'
-    cacheTag('proveedores', `proveedor-${id}`)
+    cacheTag('proveedores', `proveedor:${id}`)
 
     try {
         const proveedor = await prisma.proveedor.findUnique({

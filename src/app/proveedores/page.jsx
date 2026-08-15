@@ -38,6 +38,7 @@ const Content = async () => {
         <div>
             <div className="flex justify-end w-full my-4">
                 <Modal trigger={<PlusCircleIcon className='text-green-500' />} >
+                    <h2 className="text-green-500 text-3xl">Registrar proveedor</h2>
                     <FormProveedor action={createProveedor} data={{ articulosIdNombre }} />
                 </Modal>
             </div>

@@ -30,7 +30,7 @@ export async function getArticulos() {
 
 export async function getArticulo(id) {  // obtener artículo con proveedores
     'use cache'
-    cacheTag('articulos', `articulo-${id}`)
+    cacheTag('articulos', `articulo:${id}`)
 
     try {
         const articulo = await prisma.articulo.findUnique({
