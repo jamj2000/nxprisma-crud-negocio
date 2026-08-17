@@ -101,8 +101,8 @@ export const FormProveedor = ({ data = {}, action, disabled }) => {
                     label: "Nacionalidad",
                     component: "InputSelect",
                     options: [
-                        ["Nacional", "true", data?.nacional === true],
-                        ["Extranjero", "false", data?.nacional !== true],
+                        ["Nacional", "true", data?.nacional == undefined ? true : data?.nacional],
+                        ["Extranjero", "false", data?.nacional == undefined ? false : !data?.nacional],
                     ]
                 },
                 {
