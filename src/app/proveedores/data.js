@@ -14,9 +14,10 @@ export async function getProveedores() {
                 articulos: true
             },
             orderBy: {
-                createdAt: 'desc'
+                nombre: 'asc'
             }
         })
+
         return proveedores;
     } catch (error) {
         // console.log(error);  
@@ -37,7 +38,6 @@ export async function getProveedor(id) {  // obtener proveedores con artículos
             }
         })
 
-        // console.log(proveedor);
         return proveedor;
     } catch (error) {
         // console.log(error);  

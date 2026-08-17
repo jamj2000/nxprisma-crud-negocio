@@ -13,7 +13,7 @@ export async function createArticulo(prevState, formData) {
 
 
   try {
-    const articulo = await prisma.articulo.create({
+    await prisma.articulo.create({
       data: {
         nombre,
         descripcion,
@@ -22,6 +22,12 @@ export async function createArticulo(prevState, formData) {
       }
     })
 
+    updateTag('articulos')
+    return {
+      type: "success",
+      message: "Articulo creado correctamente"
+    }
+
   } catch (error) {
     return {
       type: "error",
@@ -29,12 +35,7 @@ export async function createArticulo(prevState, formData) {
     }
   }
 
-  revalidatePath('/articulos');
-  updateTag('articulos')
-  return {
-    type: "success",
-    message: "Articulo creado correctamente"
-  }
+
 }
 
 
@@ -49,7 +50,7 @@ export async function updateArticulo(prevState, formData) {
 
 
   try {
-    const articulo = await prisma.articulo.update({
+    await prisma.articulo.update({
       where: { id },
       data: {
         nombre,
@@ -58,6 +59,12 @@ export async function updateArticulo(prevState, formData) {
         proveedores: { set: proveedores },
       }
     })
+
+    updateTag('articulos')
+    return {
+      type: "success",
+      message: "Articulo actualizado correctamente"
+    }
 
   } catch (error) {
     console.log(error);
@@ -68,12 +75,7 @@ export async function updateArticulo(prevState, formData) {
   }
 
 
-  revalidatePath('/articulos');
-  updateTag('articulos')
-  return {
-    type: "success",
-    message: "Articulo actualizado correctamente"
-  }
+
 }
 
 
@@ -82,9 +84,15 @@ export async function deleteArticulo(prevState, formData) {
 
 
   try {
-    const articulo = await prisma.articulo.delete({
+    await prisma.articulo.delete({
       where: { id }
     })
+
+    updateTag('articulos')
+    return {
+      type: "success",
+      message: "Articulo eliminado correctamente"
+    }
 
   } catch (error) {
     console.log(error);
@@ -94,12 +102,7 @@ export async function deleteArticulo(prevState, formData) {
     }
   }
 
-  revalidatePath('/articulos');
-  updateTag('articulos')
-  return {
-    type: "success",
-    message: "Articulo eliminado correctamente"
-  }
+
 }
 
 

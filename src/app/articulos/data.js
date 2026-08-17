@@ -16,13 +16,13 @@ export async function getArticulos() {
                 proveedores: true
             },
             orderBy: {
-                createdAt: 'desc'
+                nombre: 'asc'
             }
         })
-        // console.log(articulos)
+
         return articulos;
     } catch (error) {
-        // console.log(error);  
+        console.log(error);
         return null;
     }
 }
@@ -40,10 +40,10 @@ export async function getArticulo(id) {  // obtener artículo con proveedores
             }
         })
 
-        // console.log(articulo);
+
         return articulo;
     } catch (error) {
-        // console.log(error);  
+        console.log(error);
         return null;
     }
 }

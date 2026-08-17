@@ -1,6 +1,6 @@
 'use server'
 import prisma from '@/lib/prisma'
-import { revalidatePath, updateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 
 
 
@@ -13,10 +13,15 @@ export async function createProveedor(prevState, formData) {
 
 
   try {
-    const proveedor = await prisma.proveedor.create({
+    await prisma.proveedor.create({
       data: { nombre, nacional, articulos: { connect: articulos } }
     })
 
+    updateTag('proveedores')
+    return {
+      type: "success",
+      message: "Proveedor creado correctamente"
+    }
   } catch (error) {
     console.log(error);
     return {
@@ -25,12 +30,7 @@ export async function createProveedor(prevState, formData) {
     }
   }
 
-  revalidatePath('/proveedores');
-  updateTag('proveedores')
-  return {
-    type: "success",
-    message: "Proveedor creado correctamente"
-  }
+
 }
 
 
@@ -43,11 +43,16 @@ export async function updateProveedor(prevState, formData) {
 
 
   try {
-    const proveedor = await prisma.proveedor.update({
+    await prisma.proveedor.update({
       where: { id },
       data: { nombre, nacional, articulos: { set: articulos } }
     })
 
+    updateTag('proveedores')
+    return {
+      type: "success",
+      message: "Proveedor actualizado correctamente"
+    }
   } catch (error) {
     console.log(error);
     return {
@@ -56,12 +61,7 @@ export async function updateProveedor(prevState, formData) {
     }
   }
 
-  revalidatePath('/proveedores');
-  updateTag('proveedores')
-  return {
-    type: "success",
-    message: "Proveedor actualizado correctamente"
-  }
+
 }
 
 
@@ -69,9 +69,15 @@ export async function deleteProveedor(prevState, formData) {
   const id = Number(formData.get('id'))
 
   try {
-    const proveedor = await prisma.proveedor.delete({
+    await prisma.proveedor.delete({
       where: { id },
     })
+
+    updateTag('proveedores')
+    return {
+      type: "success",
+      message: "Proveedor eliminado correctamente"
+    }
 
   } catch (error) {
     console.log(error);
@@ -81,11 +87,17 @@ export async function deleteProveedor(prevState, formData) {
     }
   }
 
-  revalidatePath('/proveedores');
-  updateTag('proveedores')
-  return {
-    type: "success",
-    message: "Proveedor eliminado correctamente"
-  }
+
 }
 
+
+export async function toggleProveedorNacional(id, nacional) {
+
+  // Si hubiese error se captura en el componente Switch
+  await prisma.proveedor.update({
+    where: { id },
+    data: { nacional },
+  })
+
+  updateTag('proveedores')
+}

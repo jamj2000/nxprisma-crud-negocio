@@ -1,5 +1,6 @@
-import { Modal, Form } from "@/components/simpleui"
-import { createProveedor, deleteProveedor, updateProveedor } from "@/app/proveedores/actions"
+'use client'
+import { Modal, Form, Switch } from "@/components/simpleui"
+import { createProveedor, deleteProveedor, toggleProveedorNacional, updateProveedor } from "@/app/proveedores/actions"
 import { CircleDotIcon, XCircleIcon } from "lucide-react"
 
 
@@ -9,7 +10,13 @@ export const CardProveedor = ({ children, proveedor }) => (
     <div className="w-full flex flex-col justify-between gap-4 md:flex-row bg-white rounded-lg overflow-hidden p-4 border border-slate-400 shadow-lg">
         <div>
             <p><strong>{proveedor.nombre}</strong></p>
-            <p>{proveedor.nacional ? "Nacional" : "Extranjero"}</p>
+            <Switch
+                labelOn="Nacional"
+                labelOff="Extranjero"
+                value={proveedor.nacional}
+                onChange={(value) => toggleProveedorNacional(proveedor.id, value)}
+            />
+
         </div>
         <div>
             {children}

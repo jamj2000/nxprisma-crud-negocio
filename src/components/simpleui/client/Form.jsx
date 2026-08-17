@@ -34,44 +34,6 @@ const COMPONENT_MAP = {
 
 
 
-const fields = [
-    {
-        name: "nombre",
-        label: "Nombre",
-        component: "InputText"
-    },
-    {
-        name: "empresa",
-        label: "Empresa",
-        component: "InputText"
-    },
-
-    {
-        name: "cargo",
-        label: "Cargo",
-        component: "InputText"
-    },
-    {
-        name: "habilidades",
-        label: "Habilidades",
-        component: "InputGroup",
-        radio: false,
-        options: [
-            ["Leer", "leer", false],
-            ["Cine", "cine", false],
-            ["Música", "música", true],
-            ["Deporte", "deporte", false]
-        ]
-    },
-    {
-        labels: ["Guardar", "Guardando ..."],
-        component: "Submit"
-    }
-];
-
-
-
-
 
 export const Form = ({
     action = async () => { },
@@ -94,8 +56,9 @@ export const Form = ({
 
         handledStateRef.current = state;
 
-        if (state.message && state.type) {
-            toast[state.type](state.message);
+        if (state.type) {
+            if (state.message)
+                toast[state.type](state.message);
             if (state.type == "success" || state.type == "info")
                 formRef.current?.closest("dialog")?.close();
         }
