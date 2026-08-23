@@ -1,6 +1,6 @@
 'use client'
 import { Modal, Form, Switch } from "@/components/simpleui"
-import { createProveedor, deleteProveedor, toggleProveedorNacional, updateProveedor } from "@/app/proveedores/actions"
+import { createProveedor, deleteProveedor, toggleProveedorNacional, updateProveedor } from "@/lib/actions/proveedores"
 import { CircleDotIcon, XCircleIcon } from "lucide-react"
 
 

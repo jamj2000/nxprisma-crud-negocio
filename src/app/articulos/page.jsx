@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
 import { Modal } from '@/components/simpleui'
 import { PlusCircleIcon } from 'lucide-react'
-import { getArticulos } from '@/app/articulos/data'
-import { getProveedores } from '@/app/proveedores/data'
-import { createArticulo } from '@/app/articulos/actions'
-import { ListArticulos, FormArticulo } from '@/app/articulos/components'
+import { getArticulos } from '@/lib/data/articulos'
+import { getProveedores } from '@/lib/data/proveedores'
+import { createArticulo } from '@/lib/actions/articulos'
+import { ListArticulos, FormArticulo } from '@/components/articulos'
 
 
 

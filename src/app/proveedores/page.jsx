@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
 import { Modal } from '@/components/simpleui'
 import { PlusCircleIcon } from 'lucide-react'
-import { getProveedores } from '@/app/proveedores/data'
-import { getArticulos } from '@/app/articulos/data'
-import { createProveedor } from '@/app/proveedores/actions'
-import { ListProveedores, FormProveedor } from '@/app/proveedores/components'
+import { getProveedores } from '@/lib/data/proveedores'
+import { getArticulos } from '@/lib/data/articulos'
+import { createProveedor } from '@/lib/actions/proveedores'
+import { ListProveedores, FormProveedor } from '@/components/proveedores'
 
 
 

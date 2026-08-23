@@ -1,5 +1,5 @@
 import '@/app/globals.css'
-import Header from '@/components/header';
+import Header from '@/components/ui/header';
 import { Inter } from "next/font/google";
 import { Toaster } from 'sonner';
 

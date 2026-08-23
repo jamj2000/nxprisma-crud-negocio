@@ -1,5 +1,5 @@
 import { Modal, Form } from "@/components/simpleui"
-import { createArticulo, deleteArticulo, updateArticulo } from "@/app/articulos/actions"
+import { createArticulo, deleteArticulo, updateArticulo } from "@/lib/actions/articulos"
 import { CircleDotIcon, XCircleIcon } from "lucide-react"
 
 
