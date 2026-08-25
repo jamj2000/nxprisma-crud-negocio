@@ -6,6 +6,86 @@ import { CircleDotIcon, XCircleIcon } from "lucide-react"
 
 
 
+const fields = (data) => [
+    {
+        name: "id",
+        component: "InputHidden",
+        value: data?.id,
+    },
+    {
+        name: "nombre",
+        label: "Nombre",
+        component: "InputText",
+        value: data?.nombre
+    },
+    {
+        name: "nacional",
+        label: "Nacionalidad",
+        component: "InputSelect",
+        options: [
+            ["Nacional", "true", data?.nacional == undefined ? true : data?.nacional],
+            ["Extranjero", "false", data?.nacional == undefined ? false : !data?.nacional],
+        ]
+    },
+    {
+        name: "articulos",
+        label: "Artículos",
+        component: "InputGroup",
+        multiple: true,
+        options: data?.articulosIdNombre?.map(({ id, nombre }) => ([nombre, id, data?.articulos?.some(p => p.id === id)])) ?? []
+    }
+]
+
+
+
+export const FormProveedor = ({ data = {}, action, disabled }) => {
+    const submit = () => {
+        switch (action) {
+            case createProveedor: return {
+                color: "green",
+                component: "Submit",
+                labels: ["Registrar proveedor", "Registrando proveedor ..."],
+            }
+
+            case updateProveedor: return {
+                color: "blue",
+                component: "Submit",
+                labels: ["Modificar proveedor", "Modificando proveedor ..."],
+            }
+
+            case deleteProveedor: return {
+                color: "red",
+                component: "Submit",
+                labels: ["Eliminar proveedor", "Eliminando proveedor ..."]
+            }
+            default:
+                return null
+        }
+    }
+
+    const submitField = submit();
+
+
+    return (
+        <Form
+            data={data}
+            action={action}
+            disabled={disabled}
+            fields={[
+                ...fields(data),
+                ...(submitField ? [submitField] : [])
+            ]}
+        />
+
+    )
+}
+
+
+
+
+
+
+
 export const CardProveedor = ({ children, proveedor }) => (
     <div className="w-full flex flex-col justify-between gap-4 md:flex-row bg-white rounded-lg overflow-hidden p-4 border border-slate-400 shadow-lg">
         <div>
@@ -54,77 +134,5 @@ export const ListProveedores = ({ data }) => (
 )
 
 
-
-
-
-
-export const FormProveedor = ({ data = {}, action, disabled }) => {
-    const submit = () => {
-        switch (action) {
-            case createProveedor: return {
-                color: "green",
-                component: "Submit",
-                labels: ["Registrar proveedor", "Registrando proveedor ..."],
-            }
-
-            case updateProveedor: return {
-                color: "blue",
-                component: "Submit",
-                labels: ["Modificar proveedor", "Modificando proveedor ..."],
-            }
-
-            case deleteProveedor: return {
-                color: "red",
-                component: "Submit",
-                labels: ["Eliminar proveedor", "Eliminando proveedor ..."]
-            }
-            default:
-                return null
-        }
-    }
-
-    const submitField = submit();
-
-
-    return (
-        <Form
-            data={data}
-            action={action}
-            disabled={disabled}
-            fields={[
-                {
-                    name: "id",
-                    component: "InputHidden",
-                    value: data?.id,
-                },
-                {
-                    name: "nombre",
-                    label: "Nombre",
-                    component: "InputText",
-                    value: data?.nombre
-                },
-                {
-                    name: "nacional",
-                    label: "Nacionalidad",
-                    component: "InputSelect",
-                    options: [
-                        ["Nacional", "true", data?.nacional == undefined ? true : data?.nacional],
-                        ["Extranjero", "false", data?.nacional == undefined ? false : !data?.nacional],
-                    ]
-                },
-                {
-                    name: "articulos",
-                    label: "Artículos",
-                    component: "InputGroup",
-                    multiple: true,
-                    options: data?.articulosIdNombre?.map(({ id, nombre }) => ([nombre, id, data?.articulos?.some(p => p.id === id)])) ?? []
-                },
-                ...(submitField ? [submitField] : [])
-
-            ]}
-        />
-
-    )
-}
 
 

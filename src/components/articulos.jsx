@@ -4,6 +4,86 @@ import { CircleDotIcon, XCircleIcon } from "lucide-react"
 
 
 
+
+const fields = (data) => [
+    {
+        name: "id",
+        component: "InputHidden",
+        value: data?.id,
+    },
+    {
+        name: "nombre",
+        label: "Nombre",
+        component: "InputText",
+        value: data?.nombre
+    },
+    {
+        name: "descripcion",
+        label: "Descripcion",
+        component: "InputText",
+        value: data?.descripcion
+    },
+    {
+        name: "precio",
+        label: "Precio",
+        component: "InputNumber",
+        value: data?.precio
+    },
+    {
+        name: "proveedores",
+        label: "Proveedores",
+        component: "InputGroup",
+        multiple: true,
+        options: data?.proveedoresIdNombre?.map(({ id, nombre }) => ([nombre, id, data?.proveedores?.some(p => p.id === id)])) ?? []
+    }
+]
+
+
+
+export const FormArticulo = ({ data = {}, action, disabled }) => {
+
+    const submit = () => {
+        switch (action) {
+            case createArticulo: return {
+                color: "green",
+                component: "Submit",
+                labels: ["Registrar artículo", "Registrando artículo ..."],
+            }
+
+            case updateArticulo: return {
+                color: "blue",
+                component: "Submit",
+                labels: ["Modificar artículo", "Modificando artículo ..."],
+            }
+
+            case deleteArticulo: return {
+                color: "red",
+                component: "Submit",
+                labels: ["Eliminar artículo", "Eliminando artículo ..."]
+            }
+            default:
+                return null
+        }
+    }
+
+    const submitField = submit();
+
+    return (<Form
+        data={data}
+        action={action}
+        disabled={disabled}
+        fields={[
+            ...fields(data),
+            ...(submitField ? [submitField] : [])
+        ]}
+    />
+    )
+}
+
+
+
+
+
 export const CardArticulo = ({ articulo, children }) => (
     <div className="w-full flex flex-col justify-between gap-4 md:flex-row bg-white rounded-lg overflow-hidden p-4 border border-slate-400 shadow-lg">
         <div>
@@ -44,73 +124,3 @@ export const ListArticulos = ({ data }) => (
     </div>
 )
 
-
-
-export const FormArticulo = ({ data = {}, action, disabled }) => {
-
-    const submit = () => {
-        switch (action) {
-            case createArticulo: return {
-                color: "green",
-                component: "Submit",
-                labels: ["Registrar artículo", "Registrando artículo ..."],
-            }
-
-            case updateArticulo: return {
-                color: "blue",
-                component: "Submit",
-                labels: ["Modificar artículo", "Modificando artículo ..."],
-            }
-
-            case deleteArticulo: return {
-                color: "red",
-                component: "Submit",
-                labels: ["Eliminar artículo", "Eliminando artículo ..."]
-            }
-            default:
-                return null
-        }
-    }
-
-    const submitField = submit();
-
-    return (<Form
-        data={data}
-        action={action}
-        disabled={disabled}
-        fields={[
-            {
-                name: "id",
-                component: "InputHidden",
-                value: data?.id,
-            },
-            {
-                name: "nombre",
-                label: "Nombre",
-                component: "InputText",
-                value: data?.nombre
-            },
-            {
-                name: "descripcion",
-                label: "Descripcion",
-                component: "InputText",
-                value: data?.descripcion
-            },
-            {
-                name: "precio",
-                label: "Precio",
-                component: "InputNumber",
-                value: data?.precio
-            },
-            {
-                name: "proveedores",
-                label: "Proveedores",
-                component: "InputGroup",
-                multiple: true,
-                options: data?.proveedoresIdNombre?.map(({ id, nombre }) => ([nombre, id, data?.proveedores?.some(p => p.id === id)])) ?? []
-            },
-            ...(submitField ? [submitField] : [])
-        ]}
-    />
-    )
-}
