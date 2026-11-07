@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
 
 // COMPONENTES
 
-export default function Header() {
+function Header() {
   return (
     <nav className="fixed top-0 z-50 px-2 w-full flex gap-2 items-center justify-between py-4 bg-neutral-500/50 backdrop-blur-sm">
       <div className="bg-white dark:bg-black rounded-full px-4">
